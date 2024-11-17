@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="hero">
+            <h1>Logs Akses</h1>
+            <p>Riwayat kunjungan pengguna</p>
+        </div>
+    </header>
+    <main>
+        <section class="logs-section">
+            <table id="logsTable">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>IP</th>
+                        <th>Time</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Log data will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Glow Media. All rights reserved.</p>
+    </footer>
+    <script>
+        fetch('/api/logs')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('#logsTable tbody');
+                data.forEach(log => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${log.username || 'Anonymous'}</td>
+                        <td>${log.ip}</td>
+                        <td>${log.timestamp}</td>
+                        <td>${log.count}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>
